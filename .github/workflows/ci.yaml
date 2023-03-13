@@ -42,8 +42,9 @@ jobs:
 
   # Verify attestations
   verify:
+    needs: provenance
     uses: seedwing-io/seedwing-action@v2
     with:
       policy-dir: policies
       name: company::check-attestation
-      input: binary-linux-amd64.intoto.jsonl
+      input: ${{ needs.provenance.outputs.go-provenance-name }}
