@@ -1,4 +1,4 @@
-name: SLSA go releaser
+name: Go CI
 on:
   workflow_dispatch:
   push:
@@ -39,3 +39,11 @@ jobs:
       go-version: 1.17
       # Optional: only needed if using ldflags.
       evaluated-envs: "COMMIT_DATE:${{needs.args.outputs.commit-date}}, COMMIT:${{needs.args.outputs.commit}}, VERSION:${{needs.args.outputs.version}}, TREE_STATE:${{needs.args.outputs.tree-state}}"
+
+  # Verify attestations
+  verify:
+    uses: seedwing-io/seedwing-action@v2
+    with:
+      policy-dir: policies
+      name: company::check-attestation
+      input: binary-linux-amd64.intoto.jsonl
