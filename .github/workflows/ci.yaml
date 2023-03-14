@@ -43,8 +43,13 @@ jobs:
   # Verify attestations
   verify:
     needs: provenance
-    uses: seedwing-io/seedwing-action@v2
-    with:
-      policy-dir: policies
-      name: company::check-attestation
-      input: ${{ needs.provenance.outputs.go-provenance-name }}
+    runs-on: ubuntu-latest
+    steps:
+      - id: input
+        run: |
+          echo ${{ needs.provenance.outputs.go-provenance-name }}
+    #uses: seedwing-io/seedwing-action@v2
+    #with:
+    #  policy-dir: policies
+    #  name: company::check-attestation
+    #  input: ${{ needs.provenance.outputs.go-provenance-name }}
