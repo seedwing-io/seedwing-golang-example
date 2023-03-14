@@ -42,12 +42,12 @@ jobs:
 
   # Verify attestations
   verify:
-    needs: provenance
+    needs: build
     runs-on: ubuntu-latest
     steps:
       - id: input
         run: |
-          echo ${{ needs.provenance.outputs.go-provenance-name }}
+          echo "BINARY NAME: ${{ needs.build.outputs.go-binary-name }}"
     #uses: seedwing-io/seedwing-action@v2
     #with:
     #  policy-dir: policies
