@@ -45,7 +45,9 @@ jobs:
     needs: [args, build]
     runs-on: ubuntu-latest
     steps:
-      - id: input
+      - id: checkout
+        uses: actions/checkout@ec3a7ce113134d7a93b817d10a8272cb61118579 # tag=v2.3.4
+      - id: verify
         run: |
           wget -O swio https://github.com/seedwing-io/seedwing-policy/releases/download/v0.1.0-alpha.23/swio-linux-amd64 && chmod 755 swio
           wget -O attestation.jsonl https://github.com/seedwing-io/seedwing-golang-example/releases/download/v${{ needs.args.outputs.version }}/${{ needs.build.outputs.go-binary-name }}.intoto.jsonl
