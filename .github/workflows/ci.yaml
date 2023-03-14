@@ -48,5 +48,5 @@ jobs:
       - id: input
         run: |
           wget -O swio https://github.com/seedwing-io/seedwing-policy/releases/download/v0.1.0-alpha.23/swio-linux-amd64 && chmod 755 swio
-          wget -O attestation.jsonl https://github.com/seedwing-io/seedwing-golang-example/releases/download/${{ needs.args.outputs.version }}/${{ needs.build.outputs.go-binary-name }}.intoto.jsonl
-          swio eval -n company::check-attestation -p policies -i $(cat attestation.jsonl)
+          wget -O attestation.jsonl https://github.com/seedwing-io/seedwing-golang-example/releases/download/v${{ needs.args.outputs.version }}/${{ needs.build.outputs.go-binary-name }}.intoto.jsonl
+          swio eval -n attestation::check-attestation -p policies -i attestation.jsonl
