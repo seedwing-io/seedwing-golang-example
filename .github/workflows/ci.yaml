@@ -34,22 +34,20 @@ jobs:
       contents: write # To upload assets to release.
       actions: read # To read the workflow path.
     needs: args
-    uses: seedwing-io/slsa-github-generator/.github/workflows/builder_go_slsa3.yml@v1.5.1-ulf
+    uses: slsa-framework/slsa-github-generator/.github/workflows/builder_go_slsa3.yml@v1.5.0
     with:
       go-version: 1.17
+      prerelease: true
       # Optional: only needed if using ldflags.
       evaluated-envs: "COMMIT_DATE:${{needs.args.outputs.commit-date}}, COMMIT:${{needs.args.outputs.commit}}, VERSION:${{needs.args.outputs.version}}, TREE_STATE:${{needs.args.outputs.tree-state}}"
 
   # Verify attestations
   verify:
-    needs: build
+    needs: [args, build]
     runs-on: ubuntu-latest
     steps:
       - id: input
         run: |
-          echo "Provenance NAME: ${{ needs.build.outputs.go-provenance-name }}"
-    #uses: seedwing-io/seedwing-action@v2
-    #with:
-    #  policy-dir: policies
-    #  name: company::check-attestation
-    #  input: ${{ needs.provenance.outputs.go-provenance-name }}
+          wget -O swio https://github.com/seedwing-io/seedwing-policy/releases/download/v0.1.0-alpha.23/swio-linux-amd64 && chmod 755 swio
+          wget -O attestation.jsonl https://github.com/seedwing-io/seedwing-golang-example/releases/download/${{ needs.args.outputs.version }}/${{ needs.build.outputs.go-binary-name }}.intoto.jsonl
+          swio eval -n company::check-attestation -p policies -i $(cat attestation.jsonl)
