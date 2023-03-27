@@ -1,0 +1,9 @@
+= Seedwing Golang Example
+
+Example Golang project integrating with Seedwing.
+
+This example consists the following:
+
+* A Golang server application.
+* A link:https://github.com/seedwing-io/seedwing-golang-example/blob/main/.github/workflows/ci.yam[GitHub Actions Workflow] that builds an application and creates in-toto attestations for the artifact.
+* A link:https://github.com/seedwing-io/seedwing-golang-example/tree/main/policies[set of policies] that are used to verify the attestations.

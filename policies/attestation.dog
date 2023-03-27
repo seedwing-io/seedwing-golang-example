@@ -1,1 +1,9 @@
-pattern check-attestation = anything
+pattern binary = *data::from<"binary-linux-amd64">
+
+pattern attesters = [
+        {
+              name: "lulf", public_key: "lol"
+        }
+]
+
+pattern check-attestation = intoto::verify-envelope<attesters, binary>
